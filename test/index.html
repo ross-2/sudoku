@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Uber Tests</title>
+
+  <link rel="stylesheet" href="bower_components/mocha/mocha.css" media="screen">
+</head>
+
+<body>
+
+  <div id="mocha"></div>
+  <script src="bower_components/mocha/mocha.js"></script>
+
+  <script>mocha.setup('bdd')</script>
+
+  <script data-main="/js/config" src="bower_components/requirejs/require.js"></script>
+  <script>
+  window.requireTestMode = true;
+
+  require.config({
+    deps: ['test.js'],
+    paths: {
+      chai: '../bower_components/chai/chai'
+    }
+  });
+  </script>
+
+</body>
+</html>
