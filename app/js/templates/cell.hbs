@@ -1,0 +1,7 @@
+<td class="cell{{#if provided}} cell-provided{{/if}}">
+  {{#if provided}}
+    {{value}}
+  {{else}}
+    <input type="tel" maxlength="1" pattern="1-9" class="cell-input" value="{{value}}">
+  {{/if}}
+</td>

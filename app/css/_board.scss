@@ -1,0 +1,50 @@
+.gameboard {
+  height: $board_size;
+  width: $board_size;
+}
+
+table {
+  border: 3px solid black;
+
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+tr:nth-of-type(3n + 1) {
+  border-top: 3px solid black;
+}
+
+td {
+  border: 1px solid black;
+  text-align: center;
+
+  &:nth-of-type(3n + 1) {
+    border-left: 3px solid black;
+  }
+}
+
+.cell-provided {
+  background-color: #AAA;
+  font-weight: 600;
+
+  &:hover {
+    background-color: #AAA;
+    cursor: default;
+  }
+}
+
+.cell-input {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+
+  margin: -1px;
+  border: none;
+
+
+  &:focus {
+    border: 1px solid blue;
+    outline: 0;
+  }
+}
+

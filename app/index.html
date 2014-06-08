@@ -15,8 +15,13 @@
 </head>
 <body>
 
-    <!-- build:js({app,.tmp}) js/main.js -->
-    <script data-main="js/config" src="../bower_components/requirejs/require.js"></script>
-    <!-- endbuild -->
+  <div id="main">
+    <table id="board" class="gameboard"></table>
+    <div id="controls" class="controls"></div>
+  </div>
+
+  <!-- build:js({app,.tmp}) js/main.js -->
+  <script data-main="js/config" src="../bower_components/requirejs/require.js"></script>
+  <!-- endbuild -->
 </body>
 </html>
