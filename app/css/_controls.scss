@@ -1,6 +1,28 @@
 .keyboard {
+  margin-top: 3px;
+  border: $outer_border;
 }
 
 .keyboard-key {
   display: inline-block;
+
+  width: $cell_size + 5px;
+  height: $cell_size + 5px;
+
+  margin-right: -5px;
+
+  border: none;
+  border-left: 1px outset $outer_border_color;
+
+  background-color: $inner_border_color;
+
+  cursor: pointer;
+
+  &:first-of-type {
+    border-left: none;
+  }
+
+  &:focus {
+    outline: 0;
+  }
 }

@@ -1,11 +1,6 @@
-$outer_border_color: #CCC;
-$inner_border_color: #FAFAFA;
-$outer_border: 1px solid $outer_border_color;
-$inner_border: 1px solid $inner_border_color;
 
 .gameboard {
 
-  margin: 5px;
   height: $board_size;
   width: $board_size;
 
@@ -19,6 +14,10 @@ $inner_border: 1px solid $inner_border_color;
 }
 
 .gameboard-cell {
+
+  width: $cell_size;
+  height: $cell_size;
+
   font-weight: 600;
 
   border: $inner_border;
@@ -27,19 +26,24 @@ $inner_border: 1px solid $inner_border_color;
   &:nth-of-type(3n + 1):not(:first-of-type) {
     border-left: $outer_border;
   }
+
+  &:hover {
+    background-color: red;
+    cursor: pointer;
+  }
 }
 
-.gameboard-cell-active {
+.gameboard-cell-selected {
   border: none;
-  background-color: $inner_border_color;
+  background-color: blue;
 }
 
 .gameboard-cell-provided {
   border: none;
-  background-color: $outer_border_color;
+  background-color: lighten($outer_border_color, 5%);
 
   &:hover {
-    background-color: $outer_border_color;
+    background-color: lighten($outer_border_color, 5%);
     cursor: default;
   }
 }
@@ -54,8 +58,6 @@ $inner_border: 1px solid $inner_border_color;
   font-family: 'Open Sans', sans-serif;
   font-weight: 600;
 
-  width: floor($board_size / 9) - 4;
-  height: floor($board_size / 9) - 4;
   text-align: center;
 
   border: none;

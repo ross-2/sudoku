@@ -1,20 +1,19 @@
 define([
+  'app',
   'jquery',
   'hbs!templates/cell'
-], function($, cellTemplate) {
+], function(app, $, cellTemplate) {
 
   'use strict';
 
-  var Board = function(board) {
-    this.board = board;
-  };
+  var Board = function() {};
 
   Board.prototype.init = function() {
     return this.render().attachEvents();
   };
 
   Board.prototype.render = function() {
-    var rows = this.board.map(function(rowData) {
+    var rows = app.board.map(function(rowData) {
       var $row = $('<tr class=gameboard-row>');
       $row.append(rowData.map(function(cell) {
         return cellTemplate(cell);
@@ -30,36 +29,21 @@ define([
 
   Board.prototype.attachEvents = function() {
 
-    // handle user input via the input field
-    $('#board').change(function(e) {
-
+    // provide "focus" simulation since I don't want to show a keyboard
+    $('#board').click(function(e) {
       var $target = $(e.target);
-      $target.parent().removeClass('gameboard-cell-error');
 
-      var $cell = $target.parent();
-
-      var coords = this.getCoordinates($cell);
-
-      if (!this.board.set(coords.row, coords.col, +$target.val())) {
-        $target.parent().addClass('gameboard-cell-error');
-      }
-    }.bind(this))
-
-    // filter out non-numeric entry and zeros because the
-    // tel input type doesn't enforce anything
-    .keyup(function(e) {
-      var $input = $(e.target);
-
-      if (!$input.is('input')) {
+      if (!$target.hasClass('gameboard-cell')) {
         return;
       }
 
-      $input.val($input.val().replace(/[0\D]/g, ''));
+      $('#board').find('.gameboard-cell-selected').removeClass('gameboard-cell-selected');
+      $target.addClass('gameboard-cell-selected');
     });
 
     return this;
-  };
 
+  };
 
   // conveniently, tables keep track of their indices
   Board.prototype.getCoordinates = function($cell) {

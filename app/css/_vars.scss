@@ -1,1 +1,7 @@
+$outer_border_color: #CCC;
+$inner_border_color: #FAFAFA;
+$outer_border: 1px solid $outer_border_color;
+$inner_border: 1px solid $inner_border_color;
+
 $board_size: 300px;
+$cell_size: floor($board_size / 9) - 4;
