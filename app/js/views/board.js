@@ -1,7 +1,8 @@
 define([
   'jquery',
+  'model/app',
   'hbs!templates/cell'
-], function($, cellTemplate) {
+], function($, app, cellTemplate) {
 
   'use strict';
 
@@ -20,7 +21,30 @@ define([
 
       $('#board').empty().append(rows);
 
+      this.attachEvents();
+
       return this;
+    },
+
+    attachEvents: function() {
+      $('#board').change(function(e) {
+
+        var $target = $(e.target);
+        $target.removeClass('cell-error');
+
+        var $cell = $target.parent();
+
+        var col = $cell[0].cellIndex;
+        var row = $cell.parent()[0].rowIndex;
+
+        console.log($target.val());
+
+        app.board.set(row, col, +$target.val());
+
+        if (!app.board.validate(row, col)) {
+          $target.addClass('cell-error');
+        }
+      });
     }
   };
 });

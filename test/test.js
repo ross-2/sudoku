@@ -41,7 +41,7 @@ define([
       assert.ok(!boardWithInvalidSection.validateSection(0, 0));
       assert.ok(!boardWithInvalidSection.validate());
 
-      var boardWithInvalidRow = new Board('303020600900305001001806400008102900700000008006708200002609500800203009005010300');
+      var boardWithInvalidRow = new Board('203020600900305001001806400008102900700000008006708200002609500800203009005010300');
 
       assert.ok(!boardWithInvalidRow.validateRow(0, 0));
       assert.ok(!boardWithInvalidRow.validate());

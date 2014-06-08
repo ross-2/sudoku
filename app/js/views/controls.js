@@ -12,12 +12,12 @@ define([
 
       $('#controls').empty().append(controls);
 
-      this.attachButtonEvents();
+      this.attachEvents();
 
       return this;
     },
 
-    attachButtonEvents: function() {
+    attachEvents: function() {
       $('#controls').click(function(e) {
 
         var $target = $(e.target);

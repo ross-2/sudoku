@@ -3,8 +3,9 @@ define([
   'data/games',
   'views/board',
   'views/controls',
+  'model/app',
   'model/board'
-], function($, games, boardView, controlsView, BoardModel) {
+], function($, games, boardView, controlsView, app, BoardModel) {
   'use strict';
 
   $(function() {
@@ -16,7 +17,6 @@ define([
     boardView.render(board);
     controlsView.render();
 
-
-    board.validate(0, 2);
+    app.board = board;
   });
 });

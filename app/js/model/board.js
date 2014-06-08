@@ -36,47 +36,47 @@ define([
     return Array.prototype.map.apply(this.data, arguments);
   };
 
-  Board.prototype.get = function(x, y) {
-    return this.data[x][y];
+  Board.prototype.get = function(row, col) {
+    return this.data[row][col];
   };
 
-  Board.prototype.set = function(x, y, value) {
-    var cell = this.get(x, y);
+  Board.prototype.set = function(row, col, value) {
+    var cell = this.get(row, col);
 
     cell.value = value;
   };
 
   // validate the value of a cell at the given coordinates
-  Board.prototype.validate = function(x, y) {
+  Board.prototype.validate = function(row, col) {
 
     if (arguments.length < 2) {
       // validate every cell
       return this.validateAll();
     }
 
-    return this.validateRow(x) &&
-           this.validateColumn(y) &&
-           this.validateSection(x, y);
+    return this.validateRow(row) &&
+           this.validateColumn(col) &&
+           this.validateSection(row, col);
   };
 
   Board.prototype.validateAll = function() {
 
 
     var
-        // cell/row coordinates
-        x = 9, y = 9,
+        // row/col coordinates
+        row = 9, col = 9,
 
         // section coordinates
         i, j;
 
-    while (x--) {
-      if (!this.validateRow(0, x)) {
+    while (row--) {
+      if (!this.validateRow(row)) {
         return false;
       }
     }
 
-    while (y--) {
-      if (!this.validateColumn(y, 0)) {
+    while (col--) {
+      if (!this.validateColumn(col)) {
         return false;
       }
     }
@@ -92,11 +92,11 @@ define([
     return true;
   };
 
-  Board.prototype.validateRow = function(x) {
+  Board.prototype.validateRow = function(rowIndex) {
 
     var seen = {};
 
-    return !this.data[x].some(function(cell) {
+    return !this.data[rowIndex].some(function(cell) {
 
       if (!cell.value) {
         return false;
@@ -111,12 +111,12 @@ define([
     });
   };
 
-  Board.prototype.validateColumn = function(y) {
+  Board.prototype.validateColumn = function(colIndex) {
 
     var seen = {};
 
     return !this.data.some(function(row) {
-      var cell = row[y];
+      var cell = row[colIndex];
 
       if (!cell.value) {
         return false;
@@ -131,12 +131,12 @@ define([
     });
   };
 
-  Board.prototype.validateSection = function(x, y) {
+  Board.prototype.validateSection = function(row, col) {
 
     var value, i, j;
 
-    var sectionStartRow = x - (x % 3);
-    var sectionStartColumn = y - (y % 3);
+    var sectionStartColumn = col - (col % 3);
+    var sectionStartRow = col - (col % 3);
 
     var seen = {};
 
