@@ -1,11 +1,12 @@
 define([
+  'app',
   'jquery',
   'data/games',
   'views/board',
   'views/controls',
-  'model/app',
+  'views/status',
   'model/board'
-], function($, games, boardView, controlsView, app, BoardModel) {
+], function(app, $, games, BoardView, ControlsView, StatusView, BoardModel) {
   'use strict';
 
   $(function() {
@@ -13,10 +14,14 @@ define([
     // TODO: cache current game data
 
     var board = new BoardModel(games[0]);
-
-    boardView.render(board);
-    controlsView.render();
-
     app.board = board;
+
+    var boardView = new BoardView(board);
+    var controlsView = new ControlsView();
+    var statusView = new StatusView();
+
+    boardView.init();
+    controlsView.init();
+    statusView.init();
   });
 });

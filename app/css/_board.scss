@@ -1,53 +1,72 @@
+$outer_border_color: #CCC;
+$inner_border_color: #FAFAFA;
+$outer_border: 1px solid $outer_border_color;
+$inner_border: 1px solid $inner_border_color;
+
 .gameboard {
+
+  margin: 5px;
   height: $board_size;
   width: $board_size;
-}
 
-table {
-  border: 3px solid black;
-
-  border-collapse: collapse;
+  border: $outer_border;
   border-spacing: 0;
 }
 
-tr:nth-of-type(3n + 1) {
-  border-top: 3px solid black;
+
+.gameboard-row:nth-of-type(3n + 1):not(:first-of-type) > td {
+  border-top: $outer_border;
 }
 
-td {
-  border: 1px solid black;
+.gameboard-cell {
+  font-weight: 600;
+
+  border: $inner_border;
   text-align: center;
 
-  &:nth-of-type(3n + 1) {
-    border-left: 3px solid black;
+  &:nth-of-type(3n + 1):not(:first-of-type) {
+    border-left: $outer_border;
   }
 }
 
-.cell-provided {
-  background-color: #AAA;
-  font-weight: 600;
+.gameboard-cell-active {
+  border: none;
+  background-color: $inner_border_color;
+}
+
+.gameboard-cell-provided {
+  border: none;
+  background-color: $outer_border_color;
 
   &:hover {
-    background-color: #AAA;
+    background-color: $outer_border_color;
     cursor: default;
   }
 }
 
-.cell-input {
-  width: 100%;
-  height: 100%;
+.gameboard-cell-valid {
+  border: none;
+  background-color: lighten(#67A64B, 20%);
+}
+
+.gameboard-cell-input {
+  font-size: 16px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+
+  width: floor($board_size / 9) - 4;
+  height: floor($board_size / 9) - 4;
   text-align: center;
 
-  margin: -1px;
   border: none;
-
+  background-color: transparent;
 
   &:focus {
-    border: 1px solid blue;
     outline: 0;
   }
 }
 
-.cell-error {
-  border: 1px solid red;
+.gameboard-cell-error {
+  border: none;
+  background-color: lighten(red, 30%);
 }

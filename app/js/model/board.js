@@ -1,11 +1,20 @@
 define([
+  'app',
   'model/cell'
-], function(Cell) {
+], function(app, Cell) {
 
   'use strict';
 
-  function parse(data) {
+  var Board = function(data) {
+    this.data = this.parse(data);
+  };
+
+  Board.prototype.parse = function(data) {
     var rowedData = [];
+
+    var that = this;
+
+    this.cellsRemaining = 0;
 
     // parse out rows of nine characters each
     // from our input string
@@ -19,13 +28,10 @@ define([
     // take each row and make a Cell out of each character
     return rowedData.map(function(row, rowIndex) {
       return row.split('').map(function(c, cellIndex) {
+        that.cellsRemaining++;
         return new Cell(c, rowIndex, cellIndex);
       });
     });
-  }
-
-  var Board = function(data) {
-    this.data = parse(data);
   };
 
   // just a convenience method. Could probably have just made this
@@ -44,6 +50,13 @@ define([
     var cell = this.get(row, col);
 
     cell.value = value;
+
+    // if we blanked it out, we've got one more to go
+    value ? this.cellsRemaining-- : this.cellsRemaining++;
+
+    app.trigger('change');
+
+    return this.validate(row, col);
   };
 
   // validate the value of a cell at the given coordinates
@@ -52,6 +65,10 @@ define([
     if (arguments.length < 2) {
       // validate every cell
       return this.validateAll();
+    }
+
+    if (!this.get(row, col).value) {
+      return true;
     }
 
     return this.validateRow(row) &&
@@ -135,6 +152,7 @@ define([
 
     var value, i, j;
 
+    // finds the top-left cell in a given section
     var sectionStartColumn = col - (col % 3);
     var sectionStartRow = col - (col % 3);
 

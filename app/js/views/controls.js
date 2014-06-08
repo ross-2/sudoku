@@ -5,26 +5,29 @@ define([
 
   'use strict';
 
-  return {
-    render: function() {
+  var Controls = function() {};
 
-      var controls = controlsTemplate();
-
-      $('#controls').empty().append(controls);
-
-      this.attachEvents();
-
-      return this;
-    },
-
-    attachEvents: function() {
-      $('#controls').click(function(e) {
-
-        var $target = $(e.target);
-        console.log($target.text());
-      });
-
-      return this;
-    }
+  Controls.prototype.init = function() {
+    return this.render().attachEvents();
   };
+
+  Controls.prototype.render = function() {
+    var controls = controlsTemplate();
+
+    $('#controls').empty().append(controls);
+
+    return this;
+  };
+
+  Controls.prototype.attachEvents = function() {
+    $('#controls').click(function(e) {
+
+      var $target = $(e.target);
+      console.log($target.text());
+    });
+
+    return this;
+  };
+
+  return Controls;
 });
