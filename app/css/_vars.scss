@@ -3,5 +3,14 @@ $inner_border_color: #FAFAFA;
 $outer_border: 1px solid $outer_border_color;
 $inner_border: 1px solid $inner_border_color;
 
-$board_size: 300px;
-$cell_size: floor($board_size / 9) - 4;
+$select_color: #A9D340;
+$error_color: lighten(#B23535, 20%);
+
+$board_size: 500px;
+$small_board_size: 300px;
+
+$cell_size: 100% / 9;
+$button_height: floor($board_size / 9);
+$small_board_cell_size: floor($small_board_size / 9);
+
+$mobile_breakpoint: 640px;

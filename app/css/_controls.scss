@@ -1,28 +1,90 @@
+
+.header-controls {
+
+  margin: 10px 0 5px;
+
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+.header-title {
+
+  line-height: 55px;
+
+  margin: 0;
+  float: left;
+}
+
+.header-buttons {
+  float: right;
+}
+
+.btn {
+  display: inline-block;
+
+  height: $button_height;
+
+  margin: 0;
+  padding: 0 16px;
+
+  border: 1px solid $outer_border_color;
+
+  background-color: $inner_border_color;
+
+  cursor: pointer;
+
+  font-size: 16px;
+
+  &:focus {
+    outline: 0;
+  }
+
+  &:hover {
+    background-color: white;
+  }
+}
+
 .keyboard {
-  margin-top: 3px;
+  margin-top: 5px;
   border: $outer_border;
 }
 
 .keyboard-key {
-  display: inline-block;
 
-  width: $cell_size + 5px;
-  height: $cell_size + 5px;
+  font-size: 28px;
 
-  margin-right: -5px;
+  width: $cell_size;
+
+  margin-right: -4px;
+  padding: 0;
 
   border: none;
   border-left: 1px outset $outer_border_color;
 
   background-color: $inner_border_color;
 
+  font-size: 28px;
+
   cursor: pointer;
 
   &:first-of-type {
     border-left: none;
   }
+}
 
-  &:focus {
-    outline: 0;
+@media (max-width: $mobile_breakpoint) {
+
+  .header-button-title {
+    display: none;
+  }
+
+  .keyboard-key {
+    height: $small_board_cell_size;
+
+    font-size: 16px;
   }
 }
+

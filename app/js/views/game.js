@@ -1,13 +1,47 @@
 define([
   'app',
   'views/board',
-  'views/controls',
+  'views/keyboard',
   'views/status'
-], function(app, BoardView, ControlsView, StatusView) {
+], function(app, BoardView, KeyboardView, StatusView) {
 
   'use strict';
 
-  var GameView = function() {};
+  var GameView = function() {
+    app.on('gameComplete', function() {
+
+      var cells = $('#board').find('td').sort(function(e1, e2) {
+
+        var t1 = $(e1).text().trim();
+        var t2 = $(e2).text().trim();
+
+        if (t1 === t2) {
+          return 0;
+        }
+
+        return t1 > t2 ? 1 : -1;
+      }).toArray();
+
+      function showVictory() {
+        $('#victory').addClass('victory-fadeIn');
+      }
+
+      (function doGameDoneAnimationStep() {
+        if (!cells.length) {
+
+          showVictory();
+          return;
+        }
+
+        var cell = cells.shift();
+
+        $(cell).addClass('gameboard-cell-complete');
+
+        window.requestAnimationFrame(doGameDoneAnimationStep);
+      }());
+
+    });
+  };
 
   GameView.prototype.init = function() {
     this.render().attachEvents();
@@ -15,11 +49,11 @@ define([
 
   GameView.prototype.render = function() {
     this.boardView = new BoardView();
-    this.controlsView = new ControlsView();
+    this.keyboardView = new KeyboardView();
     this.statusView = new StatusView();
 
     this.boardView.init();
-    this.controlsView.init();
+    this.keyboardView.init();
     this.statusView.init();
 
     return this;
@@ -52,28 +86,25 @@ define([
 
     }.bind(this));
 
-    $('#controls').click(function(e) {
+    $('#keyboard').click(function(e) {
       var val = $(e.target).data('value');
 
       this.setSelectedCellValue(val);
     }.bind(this));
 
+    $('#restartButton').click(function() {
+      app.trigger('restart');
+    });
+
+    $('.js-new-game').click(function() {
+      app.trigger('newGame');
+    });
+
     return this;
   };
 
   GameView.prototype.setSelectedCellValue = function(val) {
-    var $cell = $('#board').find('.gameboard-cell-selected');
-
-    // filter out non-numeric entry and zeros
-    $cell.text(val);
-
-    $cell.removeClass('gameboard-cell-error');
-
-    var coords = this.boardView.getCoordinates($cell);
-
-    if (!app.board.set(coords.row, coords.col, val)) {
-      $cell.addClass('gameboard-cell-error');
-    }
+    app.trigger('setCellValue', val);
   };
 
   return GameView;

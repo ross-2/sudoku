@@ -206,7 +206,8 @@ module.exports = function (grunt) {
         files: {
           src: [
             '<%= config.dist %>/js/{,*/}*.js',
-            '<%= config.dist %>/css/{,*/}*.css'
+            '<%= config.dist %>/css/{,*/}*.css',
+            '<%= config.dist %>/styles/fonts/{,*/}*.*'
           ]
         }
       }
@@ -271,6 +272,12 @@ module.exports = function (grunt) {
         cwd: '<%= config.app %>/css',
         dest: '.tmp/css/',
         src: '{,*/}*.css'
+      },
+      fonts: {
+        expand: true,
+        cwd: 'bower_components/font-awesome/fonts/',
+        src: '*',
+        dest: '.tmp/fonts/'
       }
     },
 
@@ -278,14 +285,17 @@ module.exports = function (grunt) {
     concurrent: {
       server: [
         'sass:server',
-        'copy:styles'
+        'copy:styles',
+        'copy:fonts'
       ],
       test: [
-        'copy:styles'
+        'copy:styles',
+        'copy:fonts'
       ],
       dist: [
         'sass',
-        'copy:styles'
+        'copy:styles',
+        'copy:fonts'
       ]
     }
   });

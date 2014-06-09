@@ -3,8 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Uber Puzzle | Sudoku</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,600' rel='stylesheet' type='text/css'>
 
@@ -16,11 +15,26 @@
 <body>
 
   <div id="main">
-    <h2>Sudoku</h2>
+    <header class="header-controls">
+      <h2 class="header-title">Sudoku</h2>
+      <div class="header-buttons">
+        <button class="js-new-game btn header-button"><i class="fa fa-th"></i> <span class="header-button-title">New Game</span></button>
+        <button id="restartButton" class="btn header-button"><i class="fa fa-undo"></i> <span class="header-button-title">Restart</span></button>
+      </div>
+    </header>
+
     <table id="board" class="gameboard"></table>
-    <div id="controls" class="controls"></div>
+    <div id="keyboard" class="keyboard"></div>
     <small id="status"></small>
+
+    <div id="victory">
+      <div class="victory-title"><i class="fa fa-trophy"></i> Game Complete!</div>
+      <div>
+        <button class="js-new-game btn header-button"><i class="fa fa-th"></i> <span class="header-button-title">New Game</span></button>
+      </div>
+    </div>
   </div>
+
 
   <!-- build:js({app,.tmp}) js/main.js -->
   <script data-main="js/config" src="../bower_components/requirejs/require.js"></script>

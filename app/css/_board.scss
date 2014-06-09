@@ -8,6 +8,16 @@
   border-spacing: 0;
 }
 
+@media (max-width: $mobile_breakpoint) {
+  .gameboard {
+    height: $small_board_size;
+    width: $small_board_size;
+  }
+
+  .gameboard-cell {
+    height: $small_board_cell_size;
+  }
+}
 
 .gameboard-row:nth-of-type(3n + 1):not(:first-of-type) > td {
   border-top: $outer_border;
@@ -21,6 +31,9 @@
   font-weight: 600;
 
   border: $inner_border;
+
+  background-color: white;
+
   text-align: center;
 
   &:nth-of-type(3n + 1):not(:first-of-type) {
@@ -28,17 +41,19 @@
   }
 
   &:hover {
-    background-color: red;
     cursor: pointer;
   }
 }
 
 .gameboard-cell-selected {
-  border: none;
-  background-color: blue;
+
+  // the every-third-row and column border has a pretty high specificity, unfortunately
+  border: none !important;
+  outline: $select_color auto 3px;
 }
 
 .gameboard-cell-provided {
+
   border: none;
   background-color: lighten($outer_border_color, 5%);
 
@@ -48,27 +63,24 @@
   }
 }
 
-.gameboard-cell-valid {
-  border: none;
-  background-color: lighten(#67A64B, 20%);
-}
+.gameboard-cell-error {
 
-.gameboard-cell-input {
-  font-size: 16px;
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 600;
+  border-color: $error_color;
+  background-color: $error_color;
 
-  text-align: center;
-
-  border: none;
-  background-color: transparent;
-
-  &:focus {
-    outline: 0;
+  &.gameboard-cell-selected {
+    border: none;
+    background-color: transparent;
   }
 }
 
-.gameboard-cell-error {
+.gameboard-cell-complete {
+
+  $complete_color: #B9DE6E;
   border: none;
-  background-color: lighten(red, 30%);
+  background-color: $complete_color;
+
+  &:hover {
+    background-color: $complete_color;
+  }
 }

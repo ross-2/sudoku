@@ -1,12 +1,37 @@
 define([
   'app',
-  'model/cell'
+  'models/cell'
 ], function(app, Cell) {
 
   'use strict';
 
   var Board = function(data) {
     this.data = this.parse(data);
+
+    app.on('restart', function() {
+
+      this.data = this.parse(app.games[app.currentGame]);
+
+      app.trigger('game-start');
+    }.bind(this));
+
+    app.on('newGame', function() {
+
+      var randomGame = Math.floor(Math.random() * app.games.length);
+
+      // lazy prevention of same-game
+      if (randomGame === app.currentGame) {
+        app.currentGame === app.games.length - 1 ?
+          randomGame = 0 :
+          randomGame++;
+      }
+
+      this.data = this.parse(app.games[randomGame]);
+      app.currentGame = randomGame;
+
+      app.trigger('game-start');
+
+    }.bind(this));
   };
 
   Board.prototype.parse = function(data) {
@@ -28,7 +53,7 @@ define([
     // take each row and make a Cell out of each character
     return rowedData.map(function(row, rowIndex) {
       return row.split('').map(function(c, cellIndex) {
-        that.cellsRemaining++;
+        (+c) || that.cellsRemaining++;
         return new Cell(c, rowIndex, cellIndex);
       });
     });
@@ -49,14 +74,31 @@ define([
   Board.prototype.set = function(row, col, value) {
     var cell = this.get(row, col);
 
+    if (cell.value === value) {
+      return true;
+    }
+
+    // if the cell already has a value, it's about to get blanked out
+    if (!cell.value && value) {
+      this.cellsRemaining--;
+    }
+    else if (!value && cell.value) {
+      this.cellsRemaining++;
+    }
+
     cell.value = value;
 
-    // if we blanked it out, we've got one more to go
-    value ? this.cellsRemaining-- : this.cellsRemaining++;
+    var result = this.validate(row, col);
 
     app.trigger('change');
 
-    return this.validate(row, col);
+    // if we're all out of cells and the last entry was valid,
+    // let's validate everything else and then declare victory
+    if (result && this.cellsRemaining === 0) {
+      this.validateAll() && app.trigger('gameComplete');
+    }
+
+    return result;
   };
 
   // validate the value of a cell at the given coordinates
@@ -77,7 +119,6 @@ define([
   };
 
   Board.prototype.validateAll = function() {
-
 
     var
         // row/col coordinates
@@ -148,13 +189,14 @@ define([
     });
   };
 
+  // validate a 3x3 section of the puzzle
   Board.prototype.validateSection = function(row, col) {
 
     var value, i, j;
 
     // finds the top-left cell in a given section
     var sectionStartColumn = col - (col % 3);
-    var sectionStartRow = col - (col % 3);
+    var sectionStartRow = row - (row % 3);
 
     var seen = {};
 

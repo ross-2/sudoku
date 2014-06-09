@@ -20,13 +20,18 @@ define(function() {
       }
     },
 
+    // trigger an event with optional arguments
     trigger: function(message) {
+
+      var args = Array.prototype.slice.call(arguments);
+      args.shift();
+
       if (!handlers[message]) {
         return;
       }
 
       handlers[message].forEach(function(fn) {
-        fn();
+        fn.apply(this, args);
       });
     }
   };

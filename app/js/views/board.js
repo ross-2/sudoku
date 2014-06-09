@@ -1,14 +1,28 @@
 define([
   'app',
   'jquery',
+  'models/board',
   'hbs!templates/cell'
-], function(app, $, cellTemplate) {
+], function(app, $, BoardModel, cellTemplate) {
 
   'use strict';
 
   var Board = function() {};
 
   Board.prototype.init = function() {
+
+    app.on('game-start', function() {
+
+      // clear out the victory message, if it's around
+      $('#victory').removeClass('victory-fadeIn');
+
+      this.render();
+    }.bind(this));
+
+    app.on('setCellValue', function(val) {
+      this.setSelectedCellValue(val);
+    }.bind(this));
+
     return this.render().attachEvents();
   };
 
@@ -31,9 +45,15 @@ define([
 
     // provide "focus" simulation since I don't want to show a keyboard
     $('#board').click(function(e) {
+
+      // skip out if we just won
+      if ($('#victory').is(':visible')) {
+        return;
+      }
+
       var $target = $(e.target);
 
-      if (!$target.hasClass('gameboard-cell')) {
+      if (!$target.hasClass('gameboard-cell') || $target.hasClass('gameboard-cell-provided')) {
         return;
       }
 
@@ -51,6 +71,28 @@ define([
       col: $cell[0].cellIndex,
       row: $cell.parent()[0].rowIndex
     };
+  };
+
+  Board.prototype.setSelectedCellValue = function(val) {
+    var $cell = $('#board').find('.gameboard-cell-selected');
+
+    // case when we haven't selected anything
+    if (!$cell[0]) {
+      return;
+    }
+
+    // filter out non-numeric entry and zeros
+    $cell.text(val);
+
+    $cell.removeClass('gameboard-cell-error');
+
+    var coords = this.getCoordinates($cell);
+
+    if (!app.board.set(coords.row, coords.col, val)) {
+      $cell.addClass('gameboard-cell-error');
+    }
+
+    $cell.removeClass('gameboard-cell-selected');
   };
 
   return Board;

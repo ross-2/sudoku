@@ -1,9 +1,12 @@
+@import "font-awesome/scss/font-awesome";
 @import "vars";
 @import "board";
 @import "controls";
+@import "victory";
 
 * {
   box-sizing: border-box;
+  color: #333;
 }
 
 body {
@@ -11,10 +14,20 @@ body {
 
   margin: 0 auto;
   width: $board_size;
+
+  background-color: lighten($inner_border_color, 1%);
 }
 
-@media (max-width: 320px) {
+@media (max-width: $mobile_breakpoint) {
   body {
-  //  margin: 0;
+    width: $small_board_size;
   }
+}
+
+h2 {
+  margin-bottom: 5px;
+}
+
+#main {
+  position: relative;
 }

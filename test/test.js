@@ -1,10 +1,39 @@
 define([
   'chai',
   'data/games',
-  'model/board'
+  'models/board'
 ], function(chai, games, Board) {
 
   'use strict';
+
+  // phantomjs has some sort of problem with function.bind
+  // see https://github.com/ariya/phantomjs/issues/10522
+  // just pulling this from MDN to keep going
+  if (!Function.prototype.bind) {
+    Function.prototype.bind = function (oThis) {
+      if (typeof this !== 'function') {
+        // closest thing possible to the ECMAScript 5
+        // internal IsCallable function
+        throw new TypeError('Function.prototype.bind - what is trying to be bound is not callable');
+      }
+
+      var aArgs = Array.prototype.slice.call(arguments, 1),
+          fToBind = this,
+          FNop = function () {},
+          fBound = function () {
+            return fToBind.apply(this instanceof FNop && oThis ?
+                    this :
+                    oThis,
+                   aArgs.concat(Array.prototype.slice.call(arguments)));
+          };
+
+      FNop.prototype = this.prototype;
+      fBound.prototype = new FNop();
+
+      return fBound;
+    };
+  }
+
 
   var assert = chai.assert;
 

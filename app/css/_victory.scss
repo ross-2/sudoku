@@ -1,0 +1,34 @@
+#victory {
+
+  position: absolute;
+
+  display: none;
+  opacity: 0;
+
+  top: 158px;
+  left: 16%;
+  background-color: white;
+  padding: 100px;
+
+  &.victory-fadeIn {
+
+    display: block;
+    opacity: 1;
+  }
+}
+
+.victory-title {
+  margin-bottom: 10px;
+}
+
+@media (max-width: $mobile_breakpoint) {
+  #victory {
+    top: 130px;
+    left: 13%;
+    padding: 40px;
+
+    .header-button-title {
+      display: initial;
+    }
+  }
+}

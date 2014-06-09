@@ -1,20 +1,21 @@
 define([
   'app',
-  'jquery',
   'data/games',
-  'model/board',
+  'models/board',
   'views/game'
-], function(app, $, games, BoardModel, GameView) {
+], function(app, games, BoardModel, GameView) {
+
   'use strict';
 
-  $(function() {
+  // TODO: cache current game data
 
-    // TODO: cache current game data
+  var board = new BoardModel(games[0]);
+  app.board = board;
 
-    var board = new BoardModel(games[0]);
-    app.board = board;
+  app.games = games;
+  app.currentGame = 0;
 
-    var gameView = new GameView();
-    gameView.init(board);
-  });
+  var gameView = new GameView();
+  gameView.init(board);
+
 });
