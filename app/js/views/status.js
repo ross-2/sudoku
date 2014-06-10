@@ -7,9 +7,9 @@ define([
   'use strict';
 
   var Status = function() {
-    app.on('change', function() {
-      this.render();
-    }.bind(this));
+    var render = this.render.bind(this);
+    app.on('change', render);
+    app.on('game-start', render);
   };
 
   Status.prototype.init = function() {

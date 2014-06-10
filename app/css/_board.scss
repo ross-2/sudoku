@@ -49,7 +49,7 @@
 
   // the every-third-row and column border has a pretty high specificity, unfortunately
   border: none !important;
-  outline: $select_color auto 3px;
+  outline: 3px solid $select_color;
 }
 
 .gameboard-cell-provided {
@@ -83,4 +83,9 @@
   &:hover {
     background-color: $complete_color;
   }
+}
+
+.gameboard-status {
+  padding: 5px 0;
+  float: right;
 }
