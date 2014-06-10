@@ -63,13 +63,15 @@ Assumptions: You already have npm and bower installed.
 
 In the root directory, run
 
-  npm install
-  bower install
-  cd test && bower install && cd ..
+```
+npm install
+bower install
+cd test && bower install && cd ..
+```
 
 ### Run the server
 
-  grunt serve
+```grunt serve```
 
 ## Application Notes
 
